@@ -86,9 +86,23 @@
       box-sizing: border-box;
     }
     .cell-number {
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 2px;
-      font-size: 13px;
+      font-size: 11px;      /* был 13, сделали поменьше */
+      color: #9ca3af;       /* мягкий серый, более бледный, чем чёрный */
+    }
+    /* Номера 1,2,3 – нежный персиковый */
+    .cell-1 .cell-number,
+    .cell-2 .cell-number,
+    .cell-3 .cell-number {
+      color: #f59e7b;   /* тёплый персиковый, но не очень яркий */
+    }
+    /* Номера 4 и 11 – мягкий голубой */
+    .cell-4 .cell-number,
+    .cell-11 .cell-number {
+      color: #60a5fa;   /* спокойный голубой */
+    }
+
     }
     .cell-value {
       font-size: 14px;
