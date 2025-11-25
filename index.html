@@ -253,7 +253,7 @@
     </p>
   </div>
 
-  <script>
+    <script>
     // Пароль для входа
     const PASSWORD = "1234";
 
@@ -281,7 +281,7 @@
       const b3 = toNumber(document.getElementById('b3').value);
       const c3 = toNumber(document.getElementById('c3').value);
 
-      // === ЛОГИКА ИЗ EXCEL ===
+      // === ЛОГИКА КАК В EXCEL ===
 
       // D3
       const sumABC = a3 + b3 + c3;
@@ -319,16 +319,17 @@
       const sumA3C3A9 = a3 + c3 + a9;
       const a11 = (sumA3C3A9 === 0) ? 0 : (((sumA3C3A9 - 1) % 22) + 1);
 
-      // === ЗАПИСЫВАЕМ В НОМЕРА 4–12 ===
-      document.getElementById('num4').textContent  = d3;
-      document.getElementById('num5').textContent  = a5;
-      document.getElementById('num6').textContent  = b5;
-      document.getElementById('num7').textContent  = c5;
-      document.getElementById('num8').textContent  = d5;
-      document.getElementById('num9').textContent  = a7;
-      document.getElementById('num10').textContent = 10; // пока условное фиксированное значение
-      document.getElementById('num11').textContent = e8;
-      document.getElementById('num12').textContent = a11;
+      // === ПРИВЯЗКА К НОМЕРАМ 4–12 ===
+      document.getElementById('num4').textContent  = d3;   // 4
+      document.getElementById('num5').textContent  = a5;   // 5
+      document.getElementById('num6').textContent  = b5;   // 6
+      document.getElementById('num7').textContent  = c5;   // 7
+      document.getElementById('num8').textContent  = d5;   // 8
+
+      document.getElementById('num9').textContent  = a9;   // 9  (A9)
+      document.getElementById('num10').textContent = a7;   // 10 (A7)
+      document.getElementById('num11').textContent = e8;   // 11 (E8)
+      document.getElementById('num12').textContent = a11;  // 12 (A11)
     }
 
     function clearInputs() {
@@ -340,6 +341,3 @@
 
     document.addEventListener('DOMContentLoaded', recalc);
   </script>
-
-</body>
-</html>
