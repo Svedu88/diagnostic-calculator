@@ -1,1 +1,269 @@
-<!DOCTYPE html><html><body>Test file. Password 1234 placeholder.</body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Диагностическая диаграмма</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="number"], input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      margin-top: 4px;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    button.primary {
+      background: #2563eb;
+      color: white;
+    }
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .error {
+      color: #b91c1c;
+      margin-top: 8px;
+      min-height: 1.2em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    th {
+      background: #f3f4f6;
+    }
+    .cell-name {
+      font-family: "Consolas", "Menlo", monospace;
+    }
+    .note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Блок пароля -->
+  <div id="login" class="card">
+    <h2>Доступ к калькулятору</h2>
+    <p>Введите пароль, чтобы открыть диагностический калькулятор.</p>
+    <label>
+      Пароль:
+      <input type="password" id="passwordInput" autocomplete="off">
+    </label>
+    <button class="primary" onclick="checkPassword()">Войти</button>
+    <p id="error" class="error"></p>
+    <p class="note">
+      Пароль: 1234 (можно потом изменить в коде). Защита проста и не рассчитана на технически подкованных людей.
+    </p>
+  </div>
+
+  <!-- Основной калькулятор (скрыт по умолчанию) -->
+  <div id="app" class="card" style="display:none;">
+    <h1>Диагностическая диаграмма</h1>
+
+    <h2>Входные данные (A3, B3, C3)</h2>
+    <p class="note">
+      Пустое поле считается как 0, как в Excel.
+    </p>
+
+    <label>
+      A3:
+      <input type="number" id="a3" oninput="recalc()">
+    </label>
+    <label>
+      B3:
+      <input type="number" id="b3" oninput="recalc()">
+    </label>
+    <label>
+      C3:
+      <input type="number" id="c3" oninput="recalc()">
+    </label>
+
+    <button class="secondary" onclick="clearInputs()">Очистить</button>
+
+    <h2>Результаты</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Ячейка</th>
+          <th>Значение</th>
+          <th>Формула (как в Excel)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cell-name">D3</td>
+          <td id="out-d3">0</td>
+          <td>IF(A3+B3+C3=0; 0; MOD(A3+B3+C3-1; 22)+1)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">B5</td>
+          <td id="out-b5">0</td>
+          <td>IF(A3+B3 &gt;= 22; A3+B3-22; A3+B3)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">C5</td>
+          <td id="out-c5">0</td>
+          <td>IF(B3+C3 &gt;= 22; B3+C3-22; B3+C3)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">A5</td>
+          <td id="out-a5">0</td>
+          <td>IF(22-B5 &gt;= 22; 22-B5-22; 22-B5)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">D5</td>
+          <td id="out-d5">0</td>
+          <td>IF(22-C5 &gt;= 22; 22-C5-22; 22-C5)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">A7</td>
+          <td id="out-a7">0</td>
+          <td>IF(B5+C5 &gt; 22; B5+C5-22; B5+C5)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">A9</td>
+          <td id="out-a9">0</td>
+          <td>IF(ABS(B5-C5)+A7 &gt; 22; ABS(B5-C5)+A7-22; ABS(B5-C5)+A7)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">E8</td>
+          <td id="out-e8">0</td>
+          <td>IF(A7+A9 &gt; 22; A7+A9-22; A7+A9)</td>
+        </tr>
+        <tr>
+          <td class="cell-name">A11</td>
+          <td id="out-a11">0</td>
+          <td>IF(A3+C3+A9=0; 0; MOD(A3+C3+A9-1; 22)+1)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">
+      Логика расчётов повторяет формулы из Excel.
+    </p>
+  </div>
+
+  <script>
+    const PASSWORD = "1234";
+
+    function checkPassword() {
+      const input = document.getElementById('passwordInput').value.trim();
+      const errorElem = document.getElementById('error');
+
+      if (input === PASSWORD) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        errorElem.textContent = "";
+        recalc();
+      } else {
+        errorElem.textContent = "Неверный пароль";
+      }
+    }
+
+    function toNumber(value) {
+      const n = Number(value);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function recalc() {
+      const a3 = toNumber(document.getElementById('a3').value);
+      const b3 = toNumber(document.getElementById('b3').value);
+      const c3 = toNumber(document.getElementById('c3').value);
+
+      // D3
+      const sumABC = a3 + b3 + c3;
+      const d3 = (sumABC === 0) ? 0 : (((sumABC - 1) % 22) + 1);
+
+      // B5
+      const sumAB = a3 + b3;
+      const b5 = (sumAB >= 22) ? (sumAB - 22) : sumAB;
+
+      // C5
+      const sumBC = b3 + c3;
+      const c5 = (sumBC >= 22) ? (sumBC - 22) : sumBC;
+
+      // A5
+      const tmpA5 = 22 - b5;
+      const a5 = (tmpA5 >= 22) ? (tmpA5 - 22) : tmpA5;
+
+      // D5
+      const tmpD5 = 22 - c5;
+      const d5 = (tmpD5 >= 22) ? (tmpD5 - 22) : tmpD5;
+
+      // A7
+      const sumB5C5 = b5 + c5;
+      const a7 = (sumB5C5 > 22) ? (sumB5C5 - 22) : sumB5C5;
+
+      // A9
+      const tempA9 = Math.abs(b5 - c5) + a7;
+      const a9 = (tempA9 > 22) ? (tempA9 - 22) : tempA9;
+
+      // E8
+      const sumA7A9 = a7 + a9;
+      const e8 = (sumA7A9 > 22) ? (sumA7A9 - 22) : sumA7A9;
+
+      // A11
+      const sumA3C3A9 = a3 + c3 + a9;
+      const a11 = (sumA3C3A9 === 0) ? 0 : (((sumA3C3A9 - 1) % 22) + 1);
+
+      document.getElementById('out-d3').textContent  = d3;
+      document.getElementById('out-b5').textContent  = b5;
+      document.getElementById('out-c5').textContent  = c5;
+      document.getElementById('out-a5').textContent  = a5;
+      document.getElementById('out-d5').textContent  = d5;
+      document.getElementById('out-a7').textContent  = a7;
+      document.getElementById('out-a9').textContent  = a9;
+      document.getElementById('out-e8').textContent  = e8;
+      document.getElementById('out-a11').textContent = a11;
+    }
+
+    function clearInputs() {
+      document.getElementById('a3').value = "";
+      document.getElementById('b3').value = "";
+      document.getElementById('c3').value = "";
+      recalc();
+    }
+  </script>
+
+</body>
+</html>
