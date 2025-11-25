@@ -84,12 +84,21 @@
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
+      position: relative;
+
     }
+    /* Номера ячеек — маленькие, слева вверху */
     .cell-number {
+      position: absolute;
+      top: 4px;
+      left: 4px;
       font-weight: 500;
-      margin-bottom: 2px;
-      font-size: 11px;      /* был 13, сделали поменьше */
-      color: #9ca3af;       /* мягкий серый, более бледный, чем чёрный */
+      font-size: 10px;
+      color: #9ca3af;
+      margin: 0;
+      padding: 0;
+    }
+
     }
     /* Номера 1,2,3 – нежный персиковый */
     .cell-1 .cell-number,
