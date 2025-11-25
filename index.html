@@ -61,20 +61,21 @@
       font-size: 12px;
     }
 
-    /* Сетка диаграммы — компактная, адаптивная */
-    .diagram {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    /* Общий стиль ячеек */
+    .diagram-row {
+      display: flex;
+      justify-content: center;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
-
     .cell {
       border-radius: 8px;
       padding: 6px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       text-align: center;
+      min-width: 60px;
+      flex: 0 0 auto;
     }
     .cell-number {
       font-weight: 600;
@@ -92,10 +93,28 @@
       background: #f3f4f6;
       font-size: 14px;
     }
-    /* Входные ячейки делаем похожими на остальные */
     .cell input[type="number"] {
       padding: 4px 6px;
       font-size: 14px;
+    }
+
+    /* Блок 9–11–10–12: столбик + ячейка сбоку */
+    .middle-block {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .middle-column {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+    .middle-side {
+      display: flex;
+      align-items: center;
     }
 
     @media (max-width: 480px) {
@@ -107,6 +126,7 @@
       }
       .cell {
         padding: 5px;
+        min-width: 56px;
       }
       .cell-number {
         font-size: 12px;
@@ -140,87 +160,78 @@
 
     <h2>Входные значения</h2>
     <p class="note">
-      Числа <b>1, 2, 3</b> — это те значения, которые вы вводите. Остальные позиции (4–12) считаются автоматически.
+      Числа <b>1, 2, 3</b> — это вводимые значения. Остальные позиции (4–12) считаются автоматически.
     </p>
 
-    <div class="diagram">
-      <!-- 1 -->
+    <!-- Строка 1: 1, 2, 3, 4 -->
+    <div class="diagram-row">
       <div class="cell">
         <div class="cell-number">1</div>
-        <input type="number" id="a3" oninput="recalc()" placeholder="">
+        <input type="number" id="a3" oninput="recalc()">
       </div>
-
-      <!-- 2 -->
       <div class="cell">
         <div class="cell-number">2</div>
-        <input type="number" id="b3" oninput="recalc()" placeholder="">
+        <input type="number" id="b3" oninput="recalc()">
       </div>
-
-      <!-- 3 -->
       <div class="cell">
         <div class="cell-number">3</div>
-        <input type="number" id="c3" oninput="recalc()" placeholder="">
+        <input type="number" id="c3" oninput="recalc()">
       </div>
-
-      <!-- 4 (D3) -->
       <div class="cell">
         <div class="cell-number">4</div>
         <div class="cell-value readonly-box" id="num4">0</div>
       </div>
+    </div>
 
-      <!-- 5 (A5) -->
+    <!-- Строка 2: 5, 6, 7, 8 -->
+    <div class="diagram-row">
       <div class="cell">
         <div class="cell-number">5</div>
         <div class="cell-value readonly-box" id="num5">0</div>
       </div>
-
-      <!-- 6 (B5) -->
       <div class="cell">
         <div class="cell-number">6</div>
         <div class="cell-value readonly-box" id="num6">0</div>
       </div>
-
-      <!-- 7 (C5) -->
       <div class="cell">
         <div class="cell-number">7</div>
         <div class="cell-value readonly-box" id="num7">0</div>
       </div>
-
-      <!-- 8 (D5) -->
       <div class="cell">
         <div class="cell-number">8</div>
         <div class="cell-value readonly-box" id="num8">0</div>
       </div>
+    </div>
 
-      <!-- 9 (A7) -->
-      <div class="cell">
-        <div class="cell-number">9</div>
-        <div class="cell-value readonly-box" id="num9">0</div>
+    <!-- Блок 9 / 10 / 12 + 11 сбоку -->
+    <div class="middle-block">
+      <div class="middle-column">
+        <div class="cell">
+          <div class="cell-number">9</div>
+          <div class="cell-value readonly-box" id="num9">0</div>
+        </div>
+        <div class="cell">
+          <div class="cell-number">10</div>
+          <div class="cell-value readonly-box" id="num10">10</div>
+        </div>
+        <div class="cell">
+          <div class="cell-number">12</div>
+          <div class="cell-value readonly-box" id="num12">0</div>
+        </div>
       </div>
 
-      <!-- 10 (условная позиция, пока 10) -->
-      <div class="cell">
-        <div class="cell-number">10</div>
-        <div class="cell-value readonly-box" id="num10">10</div>
-      </div>
-
-      <!-- 11 (E8) -->
-      <div class="cell">
-        <div class="cell-number">11</div>
-        <div class="cell-value readonly-box" id="num11">0</div>
-      </div>
-
-      <!-- 12 (A11) -->
-      <div class="cell">
-        <div class="cell-number">12</div>
-        <div class="cell-value readonly-box" id="num12">0</div>
+      <div class="middle-side">
+        <div class="cell">
+          <div class="cell-number">11</div>
+          <div class="cell-value readonly-box" id="num11">0</div>
+        </div>
       </div>
     </div>
 
     <button class="secondary" onclick="clearInputs()">Очистить всё</button>
 
     <p class="note">
-      Расчёты внутри повторяют формулы из Excel, но пользователю показываются только номера и значения.
+      Внутри используются те же формулы, что и в Excel, но пользователю показываются только номера и значения.
     </p>
   </div>
 
@@ -264,4 +275,53 @@
 
       // C5
       const sumBC = b3 + c3;
-      const c5 = (sumBC >= 22) ? (
+      const c5 = (sumBC >= 22) ? (sumBC - 22) : sumBC;
+
+      // A5
+      const tmpA5 = 22 - b5;
+      const a5 = (tmpA5 >= 22) ? (tmpA5 - 22) : tmpA5;
+
+      // D5
+      const tmpD5 = 22 - c5;
+      const d5 = (tmpD5 >= 22) ? (tmpD5 - 22) : tmpD5;
+
+      // A7
+      const sumB5C5 = b5 + c5;
+      const a7 = (sumB5C5 > 22) ? (sumB5C5 - 22) : sumB5C5;
+
+      // A9
+      const tempA9 = Math.abs(b5 - c5) + a7;
+      const a9 = (tempA9 > 22) ? (tempA9 - 22) : tempA9;
+
+      // E8
+      const sumA7A9 = a7 + a9;
+      const e8 = (sumA7A9 > 22) ? (sumA7A9 - 22) : sumA7A9;
+
+      // A11
+      const sumA3C3A9 = a3 + c3 + a9;
+      const a11 = (sumA3C3A9 === 0) ? 0 : (((sumA3C3A9 - 1) % 22) + 1);
+
+      // === ЗАПИСЫВАЕМ В НОМЕРА 4–12 ===
+      document.getElementById('num4').textContent  = d3;
+      document.getElementById('num5').textContent  = a5;
+      document.getElementById('num6').textContent  = b5;
+      document.getElementById('num7').textContent  = c5;
+      document.getElementById('num8').textContent  = d5;
+      document.getElementById('num9').textContent  = a7;
+      document.getElementById('num10').textContent = 10; // пока условное фиксированное значение
+      document.getElementById('num11').textContent = e8;
+      document.getElementById('num12').textContent = a11;
+    }
+
+    function clearInputs() {
+      document.getElementById('a3').value = "";
+      document.getElementById('b3').value = "";
+      document.getElementById('c3').value = "";
+      recalc();
+    }
+
+    document.addEventListener('DOMContentLoaded', recalc);
+  </script>
+
+</body>
+</html>
