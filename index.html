@@ -108,6 +108,23 @@
       font-size: 14px;
     }
 
+        /* Цвета для особых ячеек */
+
+    /* 1, 2, 3 – пастельный персиковый */
+    .cell-1,
+    .cell-2,
+    .cell-3 {
+      background: #fff4ec;      /* нежный тёплый тон */
+      border-color: #ffe3d1;
+    }
+
+    /* 4 и 11 – пастельный голубой */
+    .cell-4,
+    .cell-11 {
+      background: #e7f1ff;      /* мягкий голубой */
+      border-color: #d4e4ff;
+    }
+
     /* Позиционирование по сетке */
     .cell-1  { grid-row: 1; grid-column: 1; }
     .cell-2  { grid-row: 1; grid-column: 2; }
@@ -325,11 +342,11 @@
       document.getElementById('num6').textContent  = b5;   // 6
       document.getElementById('num7').textContent  = c5;   // 7
       document.getElementById('num8').textContent  = d5;   // 8
+      document.getElementById('num9').textContent  = a7;   // 9  (A7)
+      document.getElementById('num10').textContent = a9;   // 10 (A9)
+      document.getElementById('num11').textContent = e8;   // 11
+      document.getElementById('num12').textContent = a11;  // 12
 
-      document.getElementById('num9').textContent  = a9;   // 9  (A9)
-      document.getElementById('num10').textContent = a7;   // 10 (A7)
-      document.getElementById('num11').textContent = e8;   // 11 (E8)
-      document.getElementById('num12').textContent = a11;  // 12 (A11)
     }
 
     function clearInputs() {
