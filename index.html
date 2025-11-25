@@ -7,42 +7,44 @@
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      max-width: 900px;
+      max-width: 700px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 12px;
       background: #f5f5f5;
     }
     h1, h2 {
       text-align: center;
+      margin: 8px 0;
     }
     .card {
       background: #ffffff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      margin-bottom: 14px;
     }
     .note {
-      font-size: 12px;
+      font-size: 11px;
       color: #6b7280;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     input[type="password"],
     input[type="number"] {
       width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
+      padding: 6px 8px;
+      border-radius: 6px;
       border: 1px solid #ccc;
       box-sizing: border-box;
-      margin-top: 4px;
+      margin-top: 3px;
+      font-size: 14px;
     }
     button {
-      padding: 10px 16px;
+      padding: 8px 12px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      font-size: 14px;
-      margin-top: 10px;
+      font-size: 13px;
+      margin-top: 8px;
     }
     button.primary {
       background: #2563eb;
@@ -54,41 +56,64 @@
     }
     .error {
       color: #b91c1c;
-      margin-top: 8px;
+      margin-top: 6px;
       min-height: 1.2em;
+      font-size: 12px;
     }
-    /* Блок диаграммы */
+
+    /* Сетка диаграммы — компактная, адаптивная */
     .diagram {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 6px;
+      margin-top: 8px;
     }
-    @media (max-width: 640px) {
-      .diagram {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
+
     .cell {
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 6px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       text-align: center;
     }
     .cell-number {
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      font-size: 13px;
     }
     .cell-value {
-      font-size: 16px;
-      min-height: 1.4em;
+      font-size: 14px;
+      min-height: 1.2em;
     }
     .readonly-box {
-      padding: 8px 10px;
-      border-radius: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
       border: 1px solid #d1d5db;
       background: #f3f4f6;
+      font-size: 14px;
+    }
+    /* Входные ячейки делаем похожими на остальные */
+    .cell input[type="number"] {
+      padding: 4px 6px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 8px;
+      }
+      .card {
+        padding: 10px;
+      }
+      .cell {
+        padding: 5px;
+      }
+      .cell-number {
+        font-size: 12px;
+      }
+      .readonly-box {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -105,7 +130,7 @@
     <button class="primary" onclick="checkPassword()">Войти</button>
     <p id="error" class="error"></p>
     <p class="note">
-      Пароль: <b>1234</b> (его можно будет поменять в коде). Это простая защита от случайных людей, не от специалистов.
+      Пароль: <b>1234</b>. Это простая защита от случайных людей, не от специалистов.
     </p>
   </div>
 
@@ -115,30 +140,29 @@
 
     <h2>Входные значения</h2>
     <p class="note">
-      Числа <b>1, 2, 3</b> — это то, что вы вводите (как в Excel в верхней строке).
-      Остальные позиции (4–12) рассчитываются автоматически.
+      Числа <b>1, 2, 3</b> — это те значения, которые вы вводите. Остальные позиции (4–12) считаются автоматически.
     </p>
 
     <div class="diagram">
       <!-- 1 -->
       <div class="cell">
         <div class="cell-number">1</div>
-        <input type="number" id="a3" oninput="recalc()" placeholder="Введите число">
+        <input type="number" id="a3" oninput="recalc()" placeholder="">
       </div>
 
       <!-- 2 -->
       <div class="cell">
         <div class="cell-number">2</div>
-        <input type="number" id="b3" oninput="recalc()" placeholder="Введите число">
+        <input type="number" id="b3" oninput="recalc()" placeholder="">
       </div>
 
       <!-- 3 -->
       <div class="cell">
         <div class="cell-number">3</div>
-        <input type="number" id="c3" oninput="recalc()" placeholder="Введите число">
+        <input type="number" id="c3" oninput="recalc()" placeholder="">
       </div>
 
-      <!-- 4 (результат D3) -->
+      <!-- 4 (D3) -->
       <div class="cell">
         <div class="cell-number">4</div>
         <div class="cell-value readonly-box" id="num4">0</div>
@@ -174,10 +198,10 @@
         <div class="cell-value readonly-box" id="num9">0</div>
       </div>
 
-      <!-- 10 (A8) -->
+      <!-- 10 (условная позиция, пока 10) -->
       <div class="cell">
         <div class="cell-number">10</div>
-        <div class="cell-value readonly-box" id="num10">0</div>
+        <div class="cell-value readonly-box" id="num10">10</div>
       </div>
 
       <!-- 11 (E8) -->
@@ -196,7 +220,7 @@
     <button class="secondary" onclick="clearInputs()">Очистить всё</button>
 
     <p class="note">
-      Расчёты внутри повторяют формулы из Excel, но пользователю показываются только номера и значения, без ячеек и формул.
+      Расчёты внутри повторяют формулы из Excel, но пользователю показываются только номера и значения.
     </p>
   </div>
 
@@ -228,75 +252,16 @@
       const b3 = toNumber(document.getElementById('b3').value);
       const c3 = toNumber(document.getElementById('c3').value);
 
-      // ===== Логика как в Excel =====
+      // === ЛОГИКА ИЗ EXCEL ===
 
-      // D3 = IF(A3+B3+C3=0,0,MOD(A3+B3+C3-1,22)+1)
+      // D3
       const sumABC = a3 + b3 + c3;
       const d3 = (sumABC === 0) ? 0 : (((sumABC - 1) % 22) + 1);
 
-      // B5 = IF(A3+B3>=22,A3+B3-22,A3+B3)
+      // B5
       const sumAB = a3 + b3;
       const b5 = (sumAB >= 22) ? (sumAB - 22) : sumAB;
 
-      // C5 = IF(B3+C3>=22,B3+C3-22,B3+C3)
+      // C5
       const sumBC = b3 + c3;
-      const c5 = (sumBC >= 22) ? (sumBC - 22) : sumBC;
-
-      // A5 = IF(22-B5>=22,22-B5-22,22-B5)
-      const tmpA5 = 22 - b5;
-      const a5 = (tmpA5 >= 22) ? (tmpA5 - 22) : tmpA5;
-
-      // D5 = IF(22-C5>=22,22-C5-22,22-C5)
-      const tmpD5 = 22 - c5;
-      const d5 = (tmpD5 >= 22) ? (tmpD5 - 22) : tmpD5;
-
-      // A7 = IF(B5+C5>22,B5+C5-22,B5+C5)
-      const sumB5C5 = b5 + c5;
-      const a7 = (sumB5C5 > 22) ? (sumB5C5 - 22) : sumB5C5;
-
-      // A9 = IF(ABS(B5-C5)+A7>22,ABS(B5-C5)+A7-22,ABS(B5-C5)+A7)
-      const tempA9 = Math.abs(b5 - c5) + a7;
-      const a9 = (tempA9 > 22) ? (tempA9 - 22) : tempA9;
-
-      // E8 = IF(A7+A9>22, A7+A9-22, A7+A9)
-      const sumA7A9 = a7 + a9;
-      const e8 = (sumA7A9 > 22) ? (sumA7A9 - 22) : sumA7A9;
-
-      // A11 = IF(A3+C3+A9=0,0,MOD(A3+C3+A9-1,22)+1)
-      const sumA3C3A9 = a3 + c3 + a9;
-      const a11 = (sumA3C3A9 === 0) ? 0 : (((sumA3C3A9 - 1) % 22) + 1);
-
-      // ===== Заполняем номера 1–12 =====
-      // 1–3: сами вводятся, поэтому трогаем только 4–12
-
-      document.getElementById('num4').textContent  = d3;
-      document.getElementById('num5').textContent  = a5;
-      document.getElementById('num6').textContent  = b5;
-      document.getElementById('num7').textContent  = c5;
-      document.getElementById('num8').textContent  = d5;
-      document.getElementById('num9').textContent  = a7;
-      document.getElementById('num10').textContent = a8_placeholder(a7); // см. ниже
-      document.getElementById('num11').textContent = e8;
-      document.getElementById('num12').textContent = a11;
-    }
-
-    // В Excel A8 у тебя — просто число 10 (метка позиции),
-    // поэтому в расчётах оно не меняется. Можно оставить как 10.
-    function a8_placeholder(a7) {
-      // Если хочешь, здесь можно привязать 10 к какой-то логике.
-      return 10;
-    }
-
-    function clearInputs() {
-      document.getElementById('a3').value = "";
-      document.getElementById('b3').value = "";
-      document.getElementById('c3').value = "";
-      recalc();
-    }
-
-    // На всякий случай пересчитаем при загрузке
-    document.addEventListener('DOMContentLoaded', recalc);
-  </script>
-
-</body>
-</html>
+      const c5 = (sumBC >= 22) ? (
