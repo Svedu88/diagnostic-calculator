@@ -61,7 +61,7 @@
       font-size: 12px;
     }
 
-    /* Сетка с точным расположением */
+    /* Сетка */
     .diagram {
       display: grid;
       grid-template-columns: repeat(4, minmax(56px, 1fr));
@@ -73,7 +73,7 @@
 
     .cell {
       border-radius: 8px;
-      padding: 4px;
+      padding: 8px 6px 6px 6px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       text-align: center;
@@ -85,34 +85,33 @@
       align-items: center;
       box-sizing: border-box;
       position: relative;
-
     }
-    /* Номера ячеек — маленькие, слева вверху */
+
+    /* Номер ячейки (1..12) – маленький, справа сверху */
     .cell-number {
       position: absolute;
-      top: 1px;
+      top: 0px;
       right: 4px;
       font-weight: 500;
-      font-size: 10px;
+      font-size: 9px;
       color: #9ca3af;
       margin: 0;
       padding: 0;
     }
 
-    }
-    /* Номера 1,2,3 – нежный персиковый */
+    /* Номера 1–3 – персиковый */
     .cell-1 .cell-number,
     .cell-2 .cell-number,
     .cell-3 .cell-number {
-      color: #f59e7b;   /* тёплый персиковый, но не очень яркий */
+      color: #f59e7b;
     }
+
     /* Номера 4 и 11 – мягкий голубой */
     .cell-4 .cell-number,
     .cell-11 .cell-number {
-      color: #60a5fa;   /* спокойный голубой */
+      color: #60a5fa;
     }
 
-    }
     .cell-value {
       font-size: 14px;
       min-height: 1.2em;
@@ -125,26 +124,26 @@
       font-size: 14px;
       width: 100%;
       box-sizing: border-box;
+      margin-top: 8px; /* чтобы не наезжало на номер */
     }
     .cell input[type="number"] {
       padding: 3px 5px;
       font-size: 14px;
+      margin-top: 8px; /* чтобы поле было ниже номера */
     }
 
-        /* Цвета для особых ячеек */
-
-    /* 1, 2, 3 – пастельный персиковый */
+    /* Цвет фона 1–3 (персиковый) */
     .cell-1,
     .cell-2,
     .cell-3 {
-      background: #fff4ec;      /* нежный тёплый тон */
+      background: #fff4ec;
       border-color: #ffe3d1;
     }
 
-    /* 4 и 11 – пастельный голубой */
+    /* Цвет фона 4 и 11 (голубой) */
     .cell-4,
     .cell-11 {
-      background: #e7f1ff;      /* мягкий голубой */
+      background: #e7f1ff;
       border-color: #d4e4ff;
     }
 
@@ -159,12 +158,11 @@
     .cell-7  { grid-row: 2; grid-column: 3; }
     .cell-8  { grid-row: 2; grid-column: 4; }
 
-    /* 9,10,12 под 5 (1-й столбец), 11 под 7 (3-й столбец) между 9 и 10 */
     .cell-9  { grid-row: 3; grid-column: 1; }
     .cell-10 { grid-row: 4; grid-column: 1; }
     .cell-12 { grid-row: 5; grid-column: 1; }
 
-    .cell-11 { grid-row: 3; grid-column: 3; } /* под 7-й колонкой и на уровне 9 */
+    .cell-11 { grid-row: 3; grid-column: 3; }
 
     @media (max-width: 480px) {
       body {
@@ -177,9 +175,6 @@
         min-width: 52px;
         min-height: 52px;
       }
-      .cell-number {
-        font-size: 12px;
-      }
       .readonly-box {
         font-size: 13px;
       }
@@ -188,7 +183,7 @@
 </head>
 <body>
 
-  <!-- БЛОК ПАРОЛЯ -->
+  <!-- ПАРОЛЬ -->
   <div id="login" class="card">
     <h2>Доступ к калькулятору</h2>
     <p>Введите пароль, чтобы открыть диагностическую диаграмму.</p>
@@ -199,17 +194,17 @@
     <button class="primary" onclick="checkPassword()">Войти</button>
     <p id="error" class="error"></p>
     <p class="note">
-      Пароль: Это простая защита от случайных людей, не от специалистов.
+      Пароль: <b>1234</b>. Это простая защита от случайных людей, не от специалистов.
     </p>
   </div>
 
-  <!-- ОСНОВНОЙ КАЛЬКУЛЯТОР -->
+  <!-- КАЛЬКУЛЯТОР -->
   <div id="app" class="card" style="display:none;">
     <h1>Диагностическая диаграмма</h1>
 
     <h2>Входные значения</h2>
     <p class="note">
-      Числа <b>1, 2, 3</b> — это вводимые значения. Остальные позиции (4–12) считаются автоматически.
+      Числа <b>1, 2, 3</b> — вводимые значения. Остальные позиции (4–12) считаются автоматически по тем же формулам, что и в Excel.
     </p>
 
     <div class="diagram">
@@ -261,25 +256,25 @@
         <div class="cell-value readonly-box" id="num8">0</div>
       </div>
 
-      <!-- 9 под 5 -->
+      <!-- 9 (A7) -->
       <div class="cell cell-9">
         <div class="cell-number">9</div>
         <div class="cell-value readonly-box" id="num9">0</div>
       </div>
 
-      <!-- 10 под 9 -->
+      <!-- 10 (A9) -->
       <div class="cell cell-10">
         <div class="cell-number">10</div>
-        <div class="cell-value readonly-box" id="num10">10</div>
+        <div class="cell-value readonly-box" id="num10">0</div>
       </div>
 
-      <!-- 12 под 10 -->
+      <!-- 12 (A11) -->
       <div class="cell cell-12">
         <div class="cell-number">12</div>
         <div class="cell-value readonly-box" id="num12">0</div>
       </div>
 
-      <!-- 11 под 7-й колонкой, между 9 и 10 по вертикали -->
+      <!-- 11 (E8) -->
       <div class="cell cell-11">
         <div class="cell-number">11</div>
         <div class="cell-value readonly-box" id="num11">0</div>
@@ -289,12 +284,11 @@
     <button class="secondary" onclick="clearInputs()">Очистить всё</button>
 
     <p class="note">
-      Внутри используются те же формулы, что и в Excel, но пользователю показываются только номера и значения.
+      Внутри заданы те же формулы, что и в твоём Excel-файле <i>«Диагностическая_диаграмма_ОРИГИНАЛ_с_формулами.xlsx»</i>.
     </p>
   </div>
 
-    <script>
-    // Пароль для входа
+  <script>
     const PASSWORD = "1234";
 
     function checkPassword() {
@@ -321,55 +315,54 @@
       const b3 = toNumber(document.getElementById('b3').value);
       const c3 = toNumber(document.getElementById('c3').value);
 
-      // === ЛОГИКА КАК В EXCEL ===
+      // --- формулы, как в Excel ---
 
-      // D3
+      // D3 = IF(A3+B3+C3=0,0,MOD(A3+B3+C3-1,22)+1)
       const sumABC = a3 + b3 + c3;
       const d3 = (sumABC === 0) ? 0 : (((sumABC - 1) % 22) + 1);
 
-      // B5
+      // B5 = IF(A3+B3>=22,A3+B3-22,A3+B3)
       const sumAB = a3 + b3;
       const b5 = (sumAB >= 22) ? (sumAB - 22) : sumAB;
 
-      // C5
+      // C5 = IF(B3+C3>=22,B3+C3-22,B3+C3)
       const sumBC = b3 + c3;
       const c5 = (sumBC >= 22) ? (sumBC - 22) : sumBC;
 
-      // A5
+      // A5 = IF(22-B5>=22,22-B5-22,22-B5)
       const tmpA5 = 22 - b5;
       const a5 = (tmpA5 >= 22) ? (tmpA5 - 22) : tmpA5;
 
-      // D5
+      // D5 = IF(22-C5>=22,22-C5-22,22-C5)
       const tmpD5 = 22 - c5;
       const d5 = (tmpD5 >= 22) ? (tmpD5 - 22) : tmpD5;
 
-      // A7
+      // A7 = IF(B5+C5>22,B5+C5-22,B5+C5)
       const sumB5C5 = b5 + c5;
       const a7 = (sumB5C5 > 22) ? (sumB5C5 - 22) : sumB5C5;
 
-      // A9
+      // A9 = IF(ABS(B5-C5)+A7>22,ABS(B5-C5)+A7-22,ABS(B5-C5)+A7)
       const tempA9 = Math.abs(b5 - c5) + a7;
       const a9 = (tempA9 > 22) ? (tempA9 - 22) : tempA9;
 
-      // E8
+      // E8 = IF(A7+A9>22, A7+A9-22, A7+A9)
       const sumA7A9 = a7 + a9;
       const e8 = (sumA7A9 > 22) ? (sumA7A9 - 22) : sumA7A9;
 
-      // A11
+      // A11 = IF(A3+C3+A9=0,0,MOD(A3+C3+A9-1,22)+1)
       const sumA3C3A9 = a3 + c3 + a9;
       const a11 = (sumA3C3A9 === 0) ? 0 : (((sumA3C3A9 - 1) % 22) + 1);
 
-      // === ПРИВЯЗКА К НОМЕРАМ 4–12 ===
-      document.getElementById('num4').textContent  = d3;   // 4
-      document.getElementById('num5').textContent  = a5;   // 5
-      document.getElementById('num6').textContent  = b5;   // 6
-      document.getElementById('num7').textContent  = c5;   // 7
-      document.getElementById('num8').textContent  = d5;   // 8
-      document.getElementById('num9').textContent  = a7;   // 9  (A7)
-      document.getElementById('num10').textContent = a9;   // 10 (A9)
-      document.getElementById('num11').textContent = e8;   // 11
-      document.getElementById('num12').textContent = a11;  // 12
-
+      // --- привязываем к номерам 4–12 ---
+      document.getElementById('num4').textContent  = d3;   // 4 = D3
+      document.getElementById('num5').textContent  = a5;   // 5 = A5
+      document.getElementById('num6').textContent  = b5;   // 6 = B5
+      document.getElementById('num7').textContent  = c5;   // 7 = C5
+      document.getElementById('num8').textContent  = d5;   // 8 = D5
+      document.getElementById('num9').textContent  = a7;   // 9 = A7
+      document.getElementById('num10').textContent = a9;   // 10 = A9
+      document.getElementById('num11').textContent = e8;   // 11 = E8
+      document.getElementById('num12').textContent = a11;  // 12 = A11
     }
 
     function clearInputs() {
@@ -381,3 +374,6 @@
 
     document.addEventListener('DOMContentLoaded', recalc);
   </script>
+
+</body>
+</html>
