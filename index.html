@@ -31,11 +31,11 @@
     input[type="password"],
     input[type="number"] {
       width: 100%;
-      padding: 6px 8px;
+      padding: 4px 6px;
       border-radius: 6px;
       border: 1px solid #ccc;
       box-sizing: border-box;
-      margin-top: 3px;
+      margin-top: 2px;
       font-size: 14px;
     }
     button {
@@ -70,16 +70,21 @@
     }
     .cell {
       border-radius: 8px;
-      padding: 6px;
+      padding: 4px;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       text-align: center;
-      min-width: 60px;
-      flex: 0 0 auto;
+      min-width: 56px;
+      min-height: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
     }
     .cell-number {
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       font-size: 13px;
     }
     .cell-value {
@@ -87,23 +92,25 @@
       min-height: 1.2em;
     }
     .readonly-box {
-      padding: 4px 6px;
+      padding: 3px 5px;
       border-radius: 6px;
       border: 1px solid #d1d5db;
       background: #f3f4f6;
       font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .cell input[type="number"] {
-      padding: 4px 6px;
+      padding: 3px 5px;
       font-size: 14px;
     }
 
-    /* Блок 9–11–10–12: столбик + ячейка сбоку */
+    /* Блок 9 / 10 / 12 + 11 сбоку (вариант B) */
     .middle-block {
       margin-top: 10px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
     }
     .middle-column {
@@ -114,7 +121,7 @@
     }
     .middle-side {
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* 11 на уровне 9 */
     }
 
     @media (max-width: 480px) {
@@ -125,8 +132,9 @@
         padding: 10px;
       }
       .cell {
-        padding: 5px;
-        min-width: 56px;
+        padding: 4px;
+        min-width: 52px;
+        min-height: 52px;
       }
       .cell-number {
         font-size: 12px;
@@ -203,7 +211,7 @@
       </div>
     </div>
 
-    <!-- Блок 9 / 10 / 12 + 11 сбоку -->
+    <!-- Блок 9 / 10 / 12 + 11 сбоку (вариант B) -->
     <div class="middle-block">
       <div class="middle-column">
         <div class="cell">
